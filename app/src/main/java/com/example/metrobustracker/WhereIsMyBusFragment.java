@@ -36,7 +36,6 @@ public class WhereIsMyBusFragment extends Fragment {
     TextView selectLabel;
     TextView countdownLabel;
     Button findRouteButton;
-    Button saveRouteButton;
 
     final List<Routes> mResponseHolder = new ArrayList<>();
 
@@ -45,9 +44,8 @@ public class WhereIsMyBusFragment extends Fragment {
     }
 
     public interface WhereListener{
-        void findRoutes();
+        void findRoutesWhere();
         void findVehicleLocation(Routes route);
-        void saveRoute(Routes route);
     }
 
     WhereListener mWhereListener;
@@ -79,7 +77,7 @@ public class WhereIsMyBusFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_where_is_my_bus, container, false);
         
         routeSpinner = view.findViewById(R.id.route_spinner);
-        mWhereListener.findRoutes();
+        mWhereListener.findRoutesWhere();
         titleLabel = view.findViewById(R.id.where_bus_textview);
         selectLabel = view.findViewById(R.id.select_prompt_textView);
         countdownLabel = view.findViewById(R.id.countdown_message_textView);
@@ -93,41 +91,33 @@ public class WhereIsMyBusFragment extends Fragment {
             }
         });
 
-        saveRouteButton = view.findViewById(R.id.save_route_button);
-        saveRouteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Routes route = getCurrentRoute();
-                mWhereListener.saveRoute(route);
-            }
-        });
-        
         return view;
     }
 
-    private void delayButton() {
-        findRouteButton.setEnabled(false);
-        countdownLabel.setVisibility(View.VISIBLE);
+    private void delayButton() { //delays search for bus/train coordinates for 30 seconds, displays user-friendly message
+                                    //I will implement this in the departure fragment in the future
+        findRouteButton.setEnabled(false); //disables button
+        countdownLabel.setVisibility(View.VISIBLE); //countdown appears
         final int delay = 30000;
         final String delayMessage = "To be polite to Metro\'s servers, search is temporarily disabled for: ";
         new CountDownTimer(delay, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                String countdown = delayMessage + millisUntilFinished/1000 + " more seconds.";
+                String countdown = delayMessage + millisUntilFinished/1000 + " more seconds."; //displays seconds remaining before you can search again
                 countdownLabel.setText(countdown);
             }
 
             @Override
             public void onFinish() {
                 countdownLabel.setVisibility(View.INVISIBLE);
-                findRouteButton.setEnabled(true);
+                findRouteButton.setEnabled(true); //can use again after timer completes
             }
         }.start();
 
     }
 
-    public void setSpinnerItems(Routes[] routesResponse) {
+    public void setSpinnerItems(Routes[] routesResponse) { //sets route response data to spinner
         List<String> routeNameArray = new ArrayList<>();
         for(Routes route : routesResponse){
             routeNameArray.add(route.getDescription());
@@ -139,14 +129,14 @@ public class WhereIsMyBusFragment extends Fragment {
     }
 
 
-    private void findRouteOnMap() {
+    private void findRouteOnMap() { //sends to main to interact with API
         Routes routeToSearch = getCurrentRoute();
         if(routeToSearch != null){
             mWhereListener.findVehicleLocation(routeToSearch);
         }
     }
 
-    private Routes getCurrentRoute() {
+    private Routes getCurrentRoute() { //retrieve selected route
         String selectedRoute = routeSpinner.getSelectedItem().toString();
         Routes routeToSearch = null;
         for(Routes route : mResponseHolder){

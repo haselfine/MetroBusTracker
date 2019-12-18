@@ -29,6 +29,7 @@ public class NavigationBar extends Fragment implements View.OnClickListener {
 
     public interface NavigationListener {
         void openFindBusFrag();
+        void openDepartureFrag();
     }
 
 
@@ -63,15 +64,23 @@ public class NavigationBar extends Fragment implements View.OnClickListener {
 
         whereIsBusButton = view.findViewById(R.id.where_imageButton);
         whereIsBusButton.setOnClickListener(this);
+        homeButton = view.findViewById(R.id.home_imageButton);
+        homeButton.setOnClickListener(this);
 
         return view;
     }
+
     @Override
     public void onClick(View v){
         int button = v.getId();
         switch (button){
             case R.id.where_imageButton:
                 mNavigationListener.openFindBusFrag();
+                break;
+            case R.id.home_imageButton:
+                mNavigationListener.openDepartureFrag();
+                break;
+
         }
     }
 

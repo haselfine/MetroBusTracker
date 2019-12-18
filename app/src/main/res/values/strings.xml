@@ -4,6 +4,9 @@
     <string name="select_prompt">Select Your Route</string>
     <string name="countdown_message">To be polite to Metro\'s servers, search is temporarily disabled</string>
     <string name="save_button">Save</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="departures">Departures</string>
+    <string name="direction">Select your direction</string>
+    <string name="stop">Select your stop</string>
+    <string name="time">Departure time</string>
 
 </resources>
