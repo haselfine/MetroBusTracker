@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MetroBusTracker</string>
+    <string name="where">Where is My Bus?</string>
+    <string name="select_prompt">Select Your Route</string>
+    <string name="countdown_message">To be polite to Metro\'s servers, search is temporarily disabled</string>
+    <string name="save_button">Save</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
